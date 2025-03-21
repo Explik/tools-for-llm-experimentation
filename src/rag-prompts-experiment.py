@@ -85,8 +85,6 @@ def submit_prompts(config_data):
             for j in range(len(updated_prompts)):
                 updated_prompts[j] = updated_prompts[j].replace(f"{{{i}}}", placeholder)
 
-            results.append(f"Placeholder {{{i}}}: {placeholder}")
-    
     arguments = copy.deepcopy(config_data)
     if "input" not in arguments:
         arguments["input"] = []
@@ -110,7 +108,7 @@ def submit_prompts(config_data):
         print(arguments)
         print(result)
 
-        results.append(f"Prompt {i}: {original_prompts[i]}\nResult {i}: {result}")
+        results.append(f"Prompt {i+1}: \"{original_prompts[i]}\"\nResult {i}: \"{result}\"")
 
         # Append result to conversation
         assistant_input = {
@@ -149,7 +147,7 @@ st.subheader("Placeholders")
 for i, placeholder in enumerate(st.session_state.placeholders):
     cols = st.columns([4, 1], vertical_alignment="bottom")
     with cols[0]:
-        st.text_input(f"Placeholder {i}", key=f"placeholder_{i}")
+        st.text_input(f"Placeholder {{{i}}}", key=f"placeholder_{i}")
     with cols[1]:
         st.button("Delete", key=f"delete_{i}", on_click=lambda: remove_placeholder(i))
 
@@ -160,7 +158,7 @@ st.subheader("Prompts")
 for i, prompt in enumerate(st.session_state.prompts):
     cols = st.columns([4, 1], vertical_alignment="bottom")
     with cols[0]:
-        st.text_input(f"Prompt {i}", key=f"prompt_{i}")
+        st.text_input(f"Prompt {i+1}", key=f"prompt_{i}")
     with cols[1]:
         st.button("Delete", key=f"delete_prompt_{i}", on_click=lambda: remove_prompt(i))
 
